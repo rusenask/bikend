@@ -114,4 +114,27 @@ angular.module('starter.controllers', [])
             $scope.map.zoom = 17;
         };
     
-});
+})
+
+.controller('NewParkCtrl', function($scope, $http) {
+    $scope.sendPark = function(){
+        console.log("Adding new parking");
+        
+        var link = 'http://web.bikend.karolisr.svc.tutum.io:8080/api/users';
+        var toSend = {
+                    "host": "jrl53@hotmail.com",
+                    "space": 3,
+                    "long": 51.5175,
+                    "lat": -0.0842,
+                     "active": true
+                }
+        $http.post(link, toSend).then(function (res){
+            $scope.response = res.data;
+            console.log("Responded:", $scope.response); 
+        });
+        
+    };
+
+})
+
+;

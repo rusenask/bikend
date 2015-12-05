@@ -50,6 +50,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         }
       }
     })
+  
+   .state('app.newpark', {
+      url: '/newpark',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/newpark.html',
+          controller: 'NewParkCtrl'
+        }
+      }
+    })
+  
     .state('app.playlists', {
       url: '/playlists',
       views: {
