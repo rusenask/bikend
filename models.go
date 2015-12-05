@@ -42,3 +42,19 @@ type HostingPlace struct {
 	Lat      float64       `json:"lat"`      // latitude
 	Bookings []Booking     `json:"bookings"` // current bookings
 }
+
+// filterCategories function searches in categories collection based on supplied keywords
+func (db *MongoDatabase) getUsers() (results []User, err error) {
+	c := db.s.DB(AppConfig.databaseName).C(user_collection)
+
+	err = c.Find(nil).All(&results)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Warn("Category search failed.")
+		return nil, err
+	} else {
+		return results, nil
+	}
+
+}
