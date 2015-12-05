@@ -8,6 +8,7 @@ import (
 type Configuration struct {
 	mongoAddress string
 	databaseName string
+	ESRIEndpoint string
 }
 
 // AppConfig stores application configuration
@@ -28,5 +29,8 @@ func initSettings() {
 		defaultDB = "BikendDB"
 	}
 	AppConfig.databaseName = defaultDB
+
+	esri := os.Getenv("ESRI")
+	AppConfig.ESRIEndpoint = esri
 
 }

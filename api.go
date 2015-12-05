@@ -22,6 +22,8 @@ type errorResponse struct {
 	Msg string `json:"msg"`
 }
 
+var ServerName = "http://localhost:8080"
+
 func responseDetailsFromMongoError(error interface{}) (content errorResponse, code int) {
 	content = errorResponse{Msg: fmt.Sprint(error)}
 	code = 400
@@ -40,6 +42,7 @@ func writeJsonResponse(w http.ResponseWriter, content *[]byte, code int) {
 
 // addUserHandler used to add new user
 func (h *HTTPClientHandler) addUserHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", ServerName)
 	// adding new user to database
 	var userRequest User
 
@@ -160,6 +163,7 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 
 // addPlaceHandler add new hosting place, provide json
 func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", ServerName)
 	// adding new hosting place to database
 	var hostingPlaceRequest HostingPlace
 	log.Info("adding place........")
