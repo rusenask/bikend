@@ -53,18 +53,22 @@ func main() {
 	session.SetMode(mgo.Monotonic, true)
 
 	// ensuring indexes for name and category keywords
-	c := session.DB(AppConfig.databaseName).C("u_category")
+	c := session.DB(AppConfig.databaseName).C(user_collection)
 	index := mgo.Index{
-		Key: []string{"$text:name", "$text:keywords"},
+		Key:        []string{"userid"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+		Sparse:     true,
 	}
 
 	err = c.EnsureIndex(index)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"Error": err.Error(),
-		}).Error("Failed to ensure full-text search indexes for u_category collection!")
+		}).Error("Failed to ensure full-text search indexes for users collection!")
 	} else {
-		log.Info("Indexes for u_category collection ensured!")
+		log.Info("Indexes for users collection ensured!")
 
 		// app starting
 		log.WithFields(log.Fields{
