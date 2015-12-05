@@ -4,7 +4,7 @@ MAINTAINER karolis.rusenas@gmail.com
 
 ADD . /go/src/github.com/rusenask/bikend
 
-#E NV MongoURI=mongo
+ENV MongoURI=mongo
 
 ENV GO15VENDOREXPERIMENT 1
 
