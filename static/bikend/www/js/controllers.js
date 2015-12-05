@@ -86,8 +86,10 @@ angular.module('starter.controllers', [])
         // initial map settings
         $scope.map = {
             center: {
-                lng: -122.6819,
-                lat: 45.5200
+                lng: -0.084044,
+                lat: 51.517474
+                
+                
             },
             zoom: 13
         };
@@ -104,4 +106,12 @@ angular.module('starter.controllers', [])
                 };
             });
         };
+        
+        $scope.search = function(){
+            console.log("HOLA");
+            $scope.map.center.lat = 51.517474;
+            $scope.map.center.lng = -0.084044;
+            $scope.map.zoom = 17;
+        };
+    
 });
