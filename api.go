@@ -9,8 +9,12 @@ import (
 	"net/http"
 )
 
-type UserResource struct {
+type UsersResource struct {
 	Data []User `json:"data"`
+}
+
+type UserResource struct {
+	Data User `json:"data"`
 }
 
 // Structure representing error
@@ -94,6 +98,44 @@ func (h *HTTPClientHandler) addUserHandler(w http.ResponseWriter, r *http.Reques
 
 // getAllUsersHandler used to get all users
 func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Request) {
+
+	userid, _ := r.URL.Query()["q"]
+	// looking for specific user
+	if len(userid) > 0 {
+		log.WithFields(log.Fields{
+			"userid": userid[0],
+		}).Info("Looking for user..")
+
+		user, err := h.db.getUser(userid[0])
+
+		if err == nil {
+			// Marshal provided interface into JSON structure
+			response := UserResource{Data: user}
+			uj, _ := json.Marshal(response)
+
+			// Write content-type, statuscode, payload
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(200)
+			fmt.Fprintf(w, "%s", uj)
+			return
+		} else {
+			log.WithFields(log.Fields{
+				"error": err.Error(),
+			}).Warn("Failed to insert..")
+
+			content, code := responseDetailsFromMongoError(err)
+
+			// Marshal provided interface into JSON structure
+			uj, _ := json.Marshal(content)
+
+			// Write content-type, statuscode, payload
+			writeJsonResponse(w, &uj, code)
+			return
+
+		}
+	}
+
+	log.Warn(len(userid))
 	// displaying all users
 	results, err := h.db.getUsers()
 	if err != nil {
@@ -107,7 +149,7 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 	}).Info("number of users")
 
 	// Marshal provided interface into JSON structure
-	response := UserResource{Data: results}
+	response := UsersResource{Data: results}
 	uj, _ := json.Marshal(response)
 
 	// Write content-type, statuscode, payload
@@ -116,10 +158,10 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 	fmt.Fprintf(w, "%s", uj)
 }
 
-func (h *HTTPClientHandler) getUserHandler(w http.ResponseWriter, r *http.Request) {
-	// display current users locations for HOSTING and where he will be parking or is parking
+func (h *HTTPClientHandler) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+
 }
 
-func (h *HTTPClientHandler) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Request) {
 
 }
