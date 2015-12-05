@@ -12,6 +12,12 @@ type MongoDatabase struct {
 	s *mgo.Session
 }
 
+// Constants representing collection names
+const user_collection string = "users"
+const review_collection string = "reviews"
+const booking_collection string = "bookings"
+const places_collection string = "places"
+
 type Review struct {
 	Id          bson.ObjectId `json:"id" bson:"_id"`
 	Rating      float64       `json:"rating"`
