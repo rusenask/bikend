@@ -50,8 +50,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         }
       }
     })
+
+  
+   .state('app.newpark', {
+      url: '/newpark',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/newpark.html',
+          controller: 'NewParkCtrl'
+        }
+      }
+    })
+  
+   
     .state('app.user', {
       url: '/user',
+
       views: {
         'menuContent': {
           templateUrl: 'templates/user.html',
@@ -78,5 +92,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/map');
 });

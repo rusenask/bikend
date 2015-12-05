@@ -8,28 +8,23 @@
         <div class="row">
         <label class="item-input-wrapper">
         <i class="icon ion-ios7-search placeholder-icon"></i>
-        <input type="text" placeholder="Buscar" ng-model="searchString">
+        <input type="text" placeholder="Address" ng-model="searchString">
       </label>    <button class="button button-assertive" ng-click="search()">
-  button-assertive
+  Search
 </button>
             </div>
-        <esri-map id="map" webmap-id="109ef537e31f42868b794f553e4194ce" center="map.center" zoom="map.zoom" item-info="itemInfo" load="mapLoaded">
+        <esri-map id="map" register-as="myMap" webmap-id="109ef537e31f42868b794f553e4194ce" center="map.center" zoom="map.zoom" item-info="itemInfo" load="mapLoaded">
             
         </esri-map>
-        <p>Lat: {{ map.center.lat | number:3 }}, Lng: {{ map.center.lng | number:3 }}, Zoom: {{map.zoom}}</p>
-        <p>
-            <button ng-repeat="bookmark in itemInfo.itemData.bookmarks" ng-click="goToBookmark(bookmark)">{{bookmark.name}}</button>
-        </p>
-        <p>Based on <a href="https://developers.arcgis.com/javascript/jssamples/ags_createwebmapid.html">this sample</a>.</p>
-        <p>Documentation:
-            <a href="./docs/#/api/esri.map.directive:esriMap">esri-map</a>,
-            <a href="./docs/#/api/esri.map.directive:esriLegend">esri-legend</a>,
-            <a href="./docs/#/api/esri.core.factory:esriLoader">esriLoader</a>
-        </p>
-    </div>
-    <div class="col-xs-4 col-sm-3" style="overflow: auto; max-height: 400px;">
-        <div id="legend"></div>
-    </div>
+        
+        
+       <ion-footer-bar align-title="left" class="bar-dark" >
+      <div class="buttons">
+        <button class="button" ng-click="routeModal.show()" ng-show="!gls.isOn">Estoy en un bus</button>
+      </div>
+     
+   
+    </ion-footer-bar>
 
       
   </ion-content>

@@ -118,7 +118,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, $stateParams, esriLoader) {
+.controller('MapCtrl', function($scope, $stateParams, esriLoader, esriRegistry) {
     // initial map settings
         // initial map settings
         $scope.map = {
@@ -143,6 +143,18 @@ angular.module('starter.controllers', [])
                 };
             });
         };
+    
+        esriRegistry.get('myMap').then(function(map){
+            map.on('click', function(e) {
+                // NOTE: $scope.$apply() is needed b/c the map's click event
+                // happens outside of Angular's digest cycle
+                $scope.$apply(function() {
+                    $scope.map.point = e.mapPoint;
+                    
+                    console.log("Point clicked:", e);
+                });
+            });
+        });
         
         $scope.search = function(){
             console.log("HOLA");
@@ -151,4 +163,27 @@ angular.module('starter.controllers', [])
             $scope.map.zoom = 17;
         };
     
-});
+})
+
+.controller('NewParkCtrl', function($scope, $http) {
+    $scope.sendPark = function(){
+        console.log("Adding new parking");
+        
+        var link = 'http://web.bikend.karolisr.svc.tutum.io:8080/api/users';
+        var toSend = {
+                    "host": "jrl53@hotmail.com",
+                    "space": 3,
+                    "long": 51.5175,
+                    "lat": -0.0842,
+                     "active": true
+                }
+        $http.post(link, toSend).then(function (res){
+            $scope.response = res.data;
+            console.log("Responded:", $scope.response); 
+        });
+        
+    };
+
+})
+
+;
