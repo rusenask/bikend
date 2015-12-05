@@ -6,8 +6,8 @@ import (
 
 // Initial structure of configuration
 type Configuration struct {
-	mongoAddress                string
-	databaseName                string
+	mongoAddress string
+	databaseName string
 }
 
 // AppConfig stores application configuration
