@@ -162,6 +162,44 @@ func (h *HTTPClientHandler) updateUserHandler(w http.ResponseWriter, r *http.Req
 
 }
 
+// addPlaceHandler add new hosting place, provide json
 func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Request) {
+	// adding new hosting place to database
+	var hostingPlaceRequest HostingPlace
+
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		// failed to read response body
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Could not read response body!")
+		http.Error(w, "Failed to read request body.", 400)
+		return
+	}
+
+	err = json.Unmarshal(body, &hostingPlaceRequest)
+
+	err = h.db.addHostingPlace(hostingPlaceRequest)
+
+	if err == nil {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(201) // place inserted
+		return
+	} else {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Warn("Failed to insert hosting place..")
+
+		content, code := responseDetailsFromMongoError(err)
+
+		// Marshal provided interface into JSON structure
+		uj, _ := json.Marshal(content)
+
+		// Write content-type, statuscode, payload
+		writeJsonResponse(w, &uj, code)
+
+	}
 
 }

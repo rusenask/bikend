@@ -47,7 +47,7 @@ type Booking struct {
 
 type HostingPlace struct {
 	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Host     string        `json:"host"`     // who is hosting this place
+	Host     string        `json:"host"`     // who is hosting this place (email address)
 	Space    int           `json:"space"`    // how many bikes can you put here
 	Active   bool          `json:"active"`   // is it active or not
 	Long     float64       `json:"long"`     // longitude
@@ -87,11 +87,25 @@ func (db *MongoDatabase) addUser(user User) error {
 
 	log.WithFields(log.Fields{
 		"bsonID": id,
-	}).Info("ID for document")
+	}).Info("ID for user document")
 
 	user.Id = id
 
 	err := c.Insert(user)
+
+	return err
+}
+
+func (db *MongoDatabase) addHostingPlace(place HostingPlace) error {
+
+	c := db.s.DB(AppConfig.databaseName).C(places_collection)
+	id := bson.NewObjectId()
+	log.WithFields(log.Fields{
+		"bsonID": id,
+	}).Info("ID for hosting place document")
+	place.Id = id
+
+	err := c.Insert(place)
 
 	return err
 }
