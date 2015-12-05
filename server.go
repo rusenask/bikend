@@ -31,7 +31,7 @@ func main() {
 	log.SetOutput(os.Stderr)
 	log.SetFormatter(&log.TextFormatter{})
 
-	port := flag.String("port", ":80", "application port")
+	port := flag.String("port", ":8080", "application port")
 	flag.Parse()
 
 	// geting db settings
