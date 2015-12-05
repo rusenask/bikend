@@ -54,6 +54,15 @@ get specific user: GET /api/users?q=karolis@rusenas4.com
 {
 	"data": {
 		"id": "566346a337dd12f268241c0c",
+		"hostingPlaces": [{
+			"id": "56635db837dd121ce8f0b257",
+			"host": "karolis@rusenas4.com",
+			"space": 3,
+			"active": true,
+			"long": 0,
+			"lat": 0,
+			"bookings": []
+		}],
 		"bikeLocation": {
 			"id": "",
 			"host": "",
