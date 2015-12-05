@@ -70,3 +70,28 @@ func (db *MongoDatabase) getUsers() (results []User, err error) {
 	}
 
 }
+
+func (db *MongoDatabase) getUser(userID string) (User, error) {
+	c := db.s.DB(AppConfig.databaseName).C(user_collection)
+
+	var result User
+
+	err := c.Find(bson.M{"userID": userID}).One(&result)
+
+	return result, err
+}
+
+func (db *MongoDatabase) addUser(user User) error {
+	c := db.s.DB(AppConfig.databaseName).C(user_collection)
+	id := bson.NewObjectId()
+
+	log.WithFields(log.Fields{
+		"bsonID": id,
+	}).Info("ID for document")
+
+	user.Id = id
+
+	err := c.Insert(user)
+
+	return err
+}
