@@ -15,6 +15,7 @@ type Review struct {
 	Id          bson.ObjectId `json:"id" bson:"_id"`
 	Rating      float64       `json:"rating"`
 	Description string        `json:"description"`
+	Author      bson.ObjectId `json:"author"`
 }
 
 type User struct {
@@ -28,6 +29,7 @@ type Booking struct {
 	Id           bson.ObjectId `json:"id" bson:"_id"`
 	Date         time.Time     `json:"time"`         // when this booking happened
 	User         bson.ObjectId `json:"user"`         // who did the booking
+	Host         bson.ObjectId `json:"host"`         // who's owner
 	HostingPlace bson.ObjectId `json:"hostingPlace"` // where is this booking taking place
 }
 
