@@ -1,5 +1,18 @@
 package main
 
+import (
+	"net/http"
+	"os"
+	"flag"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/codegangsta/negroni"
+	"github.com/go-zoo/bone"
+	"github.com/meatballhat/negroni-logrus"
+	"github.com/unrolled/render"
+	"gopkg.in/mgo.v2"
+)
+
 // Client structure to be injected into functions to perform HTTP calls
 type Client struct {
 	HTTPClient *http.Client
