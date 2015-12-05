@@ -1,0 +1,24 @@
+lb:
+  image: tutum/haproxy
+  links:
+    - "web:web"
+  ports:
+    - "80:80"
+  roles:
+    - global
+  restart: always
+web:
+  image: tutum.co/karolisr/this
+  links:
+    - "mongo:mongo"
+  ports:
+    - "80:80"
+  target_num_containers: 2
+  restart: always
+  autoredeploy: true
+
+mongo:
+  image: tutum/mongodb
+  environment:
+    - AUTH=no
+  restart: always

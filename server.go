@@ -1,9 +1,9 @@
 package main
 
 import (
+	"flag"
 	"net/http"
 	"os"
-	"flag"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/negroni"
@@ -25,7 +25,6 @@ type HTTPClientHandler struct {
 	r    *render.Render
 	db   MongoDatabase
 }
-
 
 func main() {
 	// Output to stderr instead of stdout, could also be a file.
@@ -69,8 +68,8 @@ func main() {
 
 		// app starting
 		log.WithFields(log.Fields{
-			"mongoAddress":            AppConfig.mongoAddress,
-			"databaseName":            AppConfig.databaseName,
+			"mongoAddress": AppConfig.mongoAddress,
+			"databaseName": AppConfig.databaseName,
 		}).Info("app is starting")
 
 		// getting base template and handler struct
@@ -80,8 +79,8 @@ func main() {
 		database := MongoDatabase{s: session}
 
 		h := HTTPClientHandler{http: Client{&http.Client{}},
-			r:         r,
-			db:        database,
+			r:  r,
+			db: database,
 		}
 
 		mux := getBoneRouter(h)
@@ -99,7 +98,6 @@ func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 	mux.Get("/api/users", http.HandlerFunc(h.getAllUsersHandler))
 	// returns user and his/her bike store locations and also where he booked
 	mux.Get("/api/users/:user", http.HandlerFunc(h.getUserHandler))
-
 
 	mux.Handle("/*", http.FileServer(http.Dir("static/dist")))
 
