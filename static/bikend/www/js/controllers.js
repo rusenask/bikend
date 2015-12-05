@@ -53,6 +53,32 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+        $scope.playlist = {
+          user : {
+            name: "Marty McFly",
+            description: "Byke enthusiastic",
+            image:"https://pbs.twimg.com/profile_images/1234618042/MartyMcfly.jpg",
+          },
+          parking : {
+            address: "Copper box Arena",
+            image: "https://upload.wikimedia.org/wikipedia/commons/b/bc/AlewifeBikeParking.agr.2001.JPG",
+            limit: 3,
+          },
+          reviews :[
+              {
+                name: 'John Mayer',
+                image: "http://www.technobuffalo.com/wp-content/uploads/2015/01/neytiri-avatar-5824.jpg",
+                stars: 5,
+                comment: 'lovely place to park bikes'
+              },
+              {
+                name: 'Paul McFly',
+                image: "http://images4.fanpop.com/image/photos/15200000/Avatar-Fan-Art-avatar-15271220-500-666.jpg",
+                stars: 1,
+                comment: 'The shower wasn\'t working, I had to leave al sweated to work!!!' 
+              }
+            ]
+        };
 })
 
 .controller('MapCtrl', function($scope, $stateParams, esriLoader) {
