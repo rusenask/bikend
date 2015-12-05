@@ -13,6 +13,27 @@ type UserResource struct {
 	Data []User `json:"data"`
 }
 
+// Structure representing error
+type errorResponse struct {
+	Msg string `json:"msg"`
+}
+
+func responseDetailsFromMongoError(error interface{}) (content errorResponse, code int) {
+	content = errorResponse{Msg: fmt.Sprint(error)}
+	code = 400
+	if content.Msg == "not found" {
+		code = 404
+	}
+	return content, code
+}
+
+// write json response to http response
+func writeJsonResponse(w http.ResponseWriter, content *[]byte, code int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	w.Write(*content)
+}
+
 // addUserHandler used to add new user
 func (h *HTTPClientHandler) addUserHandler(w http.ResponseWriter, r *http.Request) {
 	// adding new user to database
@@ -80,6 +101,11 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 			"error": err.Error(),
 		}).Error("Got error when tried to get all users")
 	}
+
+	log.WithFields(log.Fields{
+		"count": len(results),
+	}).Info("number of users")
+
 	// Marshal provided interface into JSON structure
 	response := UserResource{Data: results}
 	uj, _ := json.Marshal(response)
