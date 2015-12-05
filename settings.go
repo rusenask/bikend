@@ -25,7 +25,7 @@ func initSettings() {
 	// getting default database
 	defaultDB := os.Getenv("DatabaseName")
 	if defaultDB == "" {
-		defaultDB = "FuzzMongoLab"
+		defaultDB = "BikendDB"
 	}
 	AppConfig.databaseName = defaultDB
 
