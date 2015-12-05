@@ -2,6 +2,7 @@ package main
 
 import (
 	log "github.com/Sirupsen/logrus"
+	"github.com/go-zoo/bone"
 
 	"encoding/json"
 	"fmt"
@@ -9,8 +10,12 @@ import (
 	"net/http"
 )
 
-type UserResource struct {
+type UsersResource struct {
 	Data []User `json:"data"`
+}
+
+type UserResource struct {
+	Data User `json:"data"`
 }
 
 // Structure representing error
@@ -107,7 +112,7 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 	}).Info("number of users")
 
 	// Marshal provided interface into JSON structure
-	response := UserResource{Data: results}
+	response := UsersResource{Data: results}
 	uj, _ := json.Marshal(response)
 
 	// Write content-type, statuscode, payload
@@ -118,8 +123,40 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 
 func (h *HTTPClientHandler) getUserHandler(w http.ResponseWriter, r *http.Request) {
 	// display current users locations for HOSTING and where he will be parking or is parking
+	userid := bone.GetValue(r, "user")
+	user, err := h.db.getUser(userid)
+
+	if err == nil {
+		// Marshal provided interface into JSON structure
+		response := UserResource{Data: user}
+		uj, _ := json.Marshal(response)
+
+		// Write content-type, statuscode, payload
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(200)
+		fmt.Fprintf(w, "%s", uj)
+		return
+	} else {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Warn("Failed to insert..")
+
+		content, code := responseDetailsFromMongoError(err)
+
+		// Marshal provided interface into JSON structure
+		uj, _ := json.Marshal(content)
+
+		// Write content-type, statuscode, payload
+		writeJsonResponse(w, &uj, code)
+
+	}
+
 }
 
 func (h *HTTPClientHandler) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Request) {
 
 }
