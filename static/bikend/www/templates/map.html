@@ -1,12 +1,20 @@
 <ion-view view-title="Map">
   <ion-content>
-    <h2>Web Map: {{itemInfo.item.title}}</h2>
+   
 <!-- add map to page and bind to scope map parameters -->
 <p ng-bind-html="itemInfo.item.snippet"></p>
-<div class="row">
-    <div class="col-xs-8 col-sm-9">
+
+    <div >
+        <div class="row">
+        <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="text" placeholder="Buscar" ng-model="searchString">
+      </label>    <button class="button button-assertive" ng-click="search()">
+  button-assertive
+</button>
+            </div>
         <esri-map id="map" webmap-id="109ef537e31f42868b794f553e4194ce" center="map.center" zoom="map.zoom" item-info="itemInfo" load="mapLoaded">
-            <div esri-legend target-id="legend"></div>
+            
         </esri-map>
         <p>Lat: {{ map.center.lat | number:3 }}, Lng: {{ map.center.lng | number:3 }}, Zoom: {{map.zoom}}</p>
         <p>
@@ -22,7 +30,7 @@
     <div class="col-xs-4 col-sm-3" style="overflow: auto; max-height: 400px;">
         <div id="legend"></div>
     </div>
-</div>
+
       
   </ion-content>
 </ion-view>

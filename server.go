@@ -104,6 +104,8 @@ func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 
 	// add place
 	mux.Post("/api/places", http.HandlerFunc(h.addPlaceHandler))
+	// get places
+	mux.Get("/api/places", http.HandlerFunc(h.getPlaceHandler))
 
 	mux.Handle("/static/*", http.FileServer(http.Dir("static/dist")))
 
