@@ -1,0 +1,82 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'angular-esri-map' ]
+2 info using npm@2.11.2
+3 info using node@v0.12.5
+4 verbose install initial load of C:\Users\jrl53\Documents\GitHub\bikend\static\bikend\package.json
+5 warn package.json bikend@1.1.1 No repository field.
+6 warn package.json bikend@1.1.1 No README data
+7 warn package.json bikend@1.1.1 No license field.
+8 verbose readDependencies loading dependencies from C:\Users\jrl53\Documents\GitHub\bikend\static\bikend\package.json
+9 silly cache add args [ 'angular-esri-map', null ]
+10 verbose cache add spec angular-esri-map
+11 silly cache add parsed spec { raw: 'angular-esri-map',
+11 silly cache add   scope: null,
+11 silly cache add   name: 'angular-esri-map',
+11 silly cache add   rawSpec: '',
+11 silly cache add   spec: '*',
+11 silly cache add   type: 'range' }
+12 silly addNamed angular-esri-map@*
+13 verbose addNamed "*" is a valid semver range for angular-esri-map
+14 silly addNameRange { name: 'angular-esri-map', range: '*', hasData: false }
+15 silly mapToRegistry name angular-esri-map
+16 silly mapToRegistry using default registry
+17 silly mapToRegistry registry https://registry.npmjs.org/
+18 silly mapToRegistry uri https://registry.npmjs.org/angular-esri-map
+19 verbose addNameRange registry:https://registry.npmjs.org/angular-esri-map not in flight; fetching
+20 verbose request uri https://registry.npmjs.org/angular-esri-map
+21 verbose request no auth needed
+22 info attempt registry request try #1 at 7:15:42 PM
+23 verbose request id 3d307e9d094174a0
+24 http request GET https://registry.npmjs.org/angular-esri-map
+25 http 200 https://registry.npmjs.org/angular-esri-map
+26 silly get cb [ 200,
+26 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+26 silly get     etag: '"AR0B443SA66K61X1K7E1KCS3U"',
+26 silly get     'content-type': 'application/json',
+26 silly get     'cache-control': 'max-age=60',
+26 silly get     'content-length': '17038',
+26 silly get     'accept-ranges': 'bytes',
+26 silly get     date: 'Sat, 05 Dec 2015 18:15:43 GMT',
+26 silly get     via: '1.1 varnish',
+26 silly get     age: '0',
+26 silly get     connection: 'keep-alive',
+26 silly get     'x-served-by': 'cache-lcy1124-LCY',
+26 silly get     'x-cache': 'MISS',
+26 silly get     'x-cache-hits': '0',
+26 silly get     'x-timer': 'S1449339342.730558,VS0,VE301',
+26 silly get     vary: 'Accept' } ]
+27 verbose get saving angular-esri-map to C:\Users\jrl53\AppData\Roaming\npm-cache\registry.npmjs.org\angular-esri-map\.cache.json
+28 silly addNameRange number 2 { name: 'angular-esri-map', range: '*', hasData: true }
+29 silly addNameRange versions [ 'angular-esri-map',
+29 silly addNameRange   [ '1.0.0-beta.4', '1.0.0-beta.5', '1.0.0-rc.1', '1.0.0-rc.2' ] ]
+30 verbose stack Error: No compatible version found: angular-esri-map@'*'
+30 verbose stack Valid install targets:
+30 verbose stack ["1.0.0-beta.4","1.0.0-beta.5","1.0.0-rc.1","1.0.0-rc.2"]
+30 verbose stack
+30 verbose stack     at installTargetsError (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:274:12)
+30 verbose stack     at next (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:253:17)
+30 verbose stack     at setData (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:230:5)
+30 verbose stack     at RES (C:\Program Files\nodejs\node_modules\npm\node_modules\inflight\inflight.js:23:14)
+30 verbose stack     at f (C:\Program Files\nodejs\node_modules\npm\node_modules\once\once.js:17:25)
+30 verbose stack     at fixName (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:29:5)
+30 verbose stack     at saved (C:\Program Files\nodejs\node_modules\npm\lib\cache\caching-client.js:173:7)
+30 verbose stack     at FSReqWrap.oncomplete (fs.js:95:15)
+31 verbose cwd C:\Users\jrl53\Documents\GitHub\bikend\static\bikend
+32 error Windows_NT 6.3.9600
+33 error argv "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "angular-esri-map"
+34 error node v0.12.5
+35 error npm  v2.11.2
+36 error code ETARGET
+37 error notarget No compatible version found: angular-esri-map@'*'
+37 error notarget Valid install targets:
+37 error notarget ["1.0.0-beta.4","1.0.0-beta.5","1.0.0-rc.1","1.0.0-rc.2"]
+37 error notarget
+37 error notarget This is most likely not a problem with npm itself.
+37 error notarget In most cases you or one of your dependencies are requesting
+37 error notarget a package version that doesn't exist.
+37 error notarget
+37 error notarget It was specified as a dependency of 'bikend'
+38 verbose exit [ 1, true ]

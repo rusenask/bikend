@@ -31,7 +31,7 @@ func main() {
 	log.SetOutput(os.Stderr)
 	log.SetFormatter(&log.TextFormatter{})
 
-	port := flag.String("port", ":80", "application port")
+	port := flag.String("port", ":8080", "application port")
 	flag.Parse()
 
 	// geting db settings
@@ -53,18 +53,22 @@ func main() {
 	session.SetMode(mgo.Monotonic, true)
 
 	// ensuring indexes for name and category keywords
-	c := session.DB(AppConfig.databaseName).C("u_category")
+	c := session.DB(AppConfig.databaseName).C(user_collection)
 	index := mgo.Index{
-		Key: []string{"$text:name", "$text:keywords"},
+		Key:        []string{"userid"},
+		Unique:     true,
+		DropDups:   true,
+		Background: true,
+		Sparse:     true,
 	}
 
 	err = c.EnsureIndex(index)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"Error": err.Error(),
-		}).Error("Failed to ensure full-text search indexes for u_category collection!")
+		}).Error("Failed to ensure full-text search indexes for users collection!")
 	} else {
-		log.Info("Indexes for u_category collection ensured!")
+		log.Info("Indexes for users collection ensured!")
 
 		// app starting
 		log.WithFields(log.Fields{
@@ -98,6 +102,7 @@ func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 	mux.Get("/api/users", http.HandlerFunc(h.getAllUsersHandler))
 	// returns user and his/her bike store locations and also where he booked
 	mux.Get("/api/users/:user", http.HandlerFunc(h.getUserHandler))
+	mux.Post("/api/users/:user", http.HandlerFunc(h.updateUserHandler))
 
 	mux.Handle("/*", http.FileServer(http.Dir("static/dist")))
 
