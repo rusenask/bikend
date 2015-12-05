@@ -88,6 +88,7 @@ add new hosting place: POST /api/places
     "space": 3,
     "long": "44.44",
     "lat": "32.23",
+    "address": "string here",
      "active": true,
 }
 ```

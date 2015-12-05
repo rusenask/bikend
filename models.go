@@ -52,6 +52,7 @@ type HostingPlace struct {
 	Active   bool          `json:"active"`   // is it active or not
 	Long     float64       `json:"long"`     // longitude
 	Lat      float64       `json:"lat"`      // latitude
+	Address  string        `json:"address"`  // address
 	Bookings []Booking     `json:"bookings"` // current bookings
 }
 
