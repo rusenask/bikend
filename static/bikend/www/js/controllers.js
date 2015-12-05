@@ -118,7 +118,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, $stateParams, esriLoader) {
+.controller('MapCtrl', function($scope, $stateParams, esriLoader, esriRegistry) {
     // initial map settings
         // initial map settings
         $scope.map = {
@@ -143,6 +143,18 @@ angular.module('starter.controllers', [])
                 };
             });
         };
+    
+        esriRegistry.get('myMap').then(function(map){
+            map.on('click', function(e) {
+                // NOTE: $scope.$apply() is needed b/c the map's click event
+                // happens outside of Angular's digest cycle
+                $scope.$apply(function() {
+                    $scope.map.point = e.mapPoint;
+                    
+                    console.log("Point clicked:", e);
+                });
+            });
+        });
         
         $scope.search = function(){
             console.log("HOLA");
