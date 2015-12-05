@@ -78,6 +78,19 @@ func (db *MongoDatabase) getUser(userID string) (User, error) {
 
 	err := c.Find(bson.M{"userid": userID}).One(&result)
 
+	// getting places
+	pc := db.s.DB(AppConfig.databaseName).C(places_collection)
+	var places []HostingPlace
+	err = pc.Find(bson.M{"host": userID}).All(&places)
+
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Info("trouble when getting user places")
+	} else {
+		result.HostingPlaces = places
+	}
+
 	return result, err
 }
 
@@ -98,6 +111,7 @@ func (db *MongoDatabase) addUser(user User) error {
 
 func (db *MongoDatabase) addHostingPlace(place HostingPlace) error {
 
+	// adding place
 	c := db.s.DB(AppConfig.databaseName).C(places_collection)
 	id := bson.NewObjectId()
 	log.WithFields(log.Fields{

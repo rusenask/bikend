@@ -158,15 +158,11 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 	fmt.Fprintf(w, "%s", uj)
 }
 
-func (h *HTTPClientHandler) updateUserHandler(w http.ResponseWriter, r *http.Request) {
-
-}
-
 // addPlaceHandler add new hosting place, provide json
 func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Request) {
 	// adding new hosting place to database
 	var hostingPlaceRequest HostingPlace
-
+	log.Info("adding place........")
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 
@@ -180,6 +176,14 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	err = json.Unmarshal(body, &hostingPlaceRequest)
+
+	log.WithFields(log.Fields{
+		"body":   string(body),
+		"host":   hostingPlaceRequest.Host,
+		"active": hostingPlaceRequest.Active,
+		"lat":    hostingPlaceRequest.Lat,
+		"long":   hostingPlaceRequest.Long,
+	}).Info("Got place info")
 
 	err = h.db.addHostingPlace(hostingPlaceRequest)
 
@@ -201,5 +205,9 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 		writeJsonResponse(w, &uj, code)
 
 	}
+
+}
+
+func (h *HTTPClientHandler) getPlaceHandler(w http.ResponseWriter, r *http.Request) {
 
 }
