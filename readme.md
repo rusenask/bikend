@@ -70,3 +70,15 @@ get specific user: GET /api/users?q=karolis@rusenas4.com
 	}
 }
 ```
+
+
+add new hosting place: POST /api/places
+```javascript
+{
+    "host": "karolis@rusenas4.com",
+    "space": 3,
+    "long": "44.44",
+    "lat": "32.23",
+     "active": true,
+}
+```
