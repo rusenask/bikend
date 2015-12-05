@@ -23,6 +23,11 @@ type User struct {
 	HostingPlaces []HostingPlace `json:"hostingPlaces"` // hosting places that this user has registered
 	BikeLocation  HostingPlace   `json:"bikeLocation"`  // where my bike is now (empty if you haven't put your bike)
 	Reviews       []Review       `json:"reviews"`
+	UserID        string         `json:"userID"`
+	ProfilePicUrl string         `json:"profilePic"`
+	FirstName     string         `json:"firstName"`
+	LastName      string         `json:"lastName"`
+	Gender        string         `json:"gender"`
 }
 
 type Booking struct {
