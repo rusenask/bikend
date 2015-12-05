@@ -47,12 +47,12 @@ type Booking struct {
 
 type HostingPlace struct {
 	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Host     bson.ObjectId `json:"host,omitempty"` // who is hosting this place
-	Space    int           `json:"space"`          // how many bikes can you put here
-	Active   bool          `json:"active"`         // is it active or not
-	Long     float64       `json:"long"`           // longitude
-	Lat      float64       `json:"lat"`            // latitude
-	Bookings []Booking     `json:"bookings"`       // current bookings
+	Host     string        `json:"host"`     // who is hosting this place
+	Space    int           `json:"space"`    // how many bikes can you put here
+	Active   bool          `json:"active"`   // is it active or not
+	Long     float64       `json:"long"`     // longitude
+	Lat      float64       `json:"lat"`      // latitude
+	Bookings []Booking     `json:"bookings"` // current bookings
 }
 
 // filterCategories function searches in categories collection based on supplied keywords
@@ -76,7 +76,7 @@ func (db *MongoDatabase) getUser(userID string) (User, error) {
 
 	var result User
 
-	err := c.Find(bson.M{"userID": userID}).One(&result)
+	err := c.Find(bson.M{"userid": userID}).One(&result)
 
 	return result, err
 }
