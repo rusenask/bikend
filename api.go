@@ -15,3 +15,7 @@ func (h *HTTPClientHandler) getAllUsersHandler(w http.ResponseWriter, r *http.Re
 func (h *HTTPClientHandler) getUserHandler(w http.ResponseWriter, r *http.Request) {
 	// display current users locations for HOSTING and where he will be parking or is parking
 }
+
+func (h *HTTPClientHandler) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+
+}

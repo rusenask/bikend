@@ -98,6 +98,7 @@ func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 	mux.Get("/api/users", http.HandlerFunc(h.getAllUsersHandler))
 	// returns user and his/her bike store locations and also where he booked
 	mux.Get("/api/users/:user", http.HandlerFunc(h.getUserHandler))
+	mux.Post("/api/users/:user", http.HandlerFunc(h.updateUserHandler))
 
 	mux.Handle("/*", http.FileServer(http.Dir("static/dist")))
 
