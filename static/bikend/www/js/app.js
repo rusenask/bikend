@@ -50,16 +50,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         }
       }
     })
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.user', {
+      url: '/user',
       views: {
         'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'templates/user.html',
+          controller: 'UserCtrl'
         }
       }
     })
-
+  .state('app.my_place', {
+      url: '/my_place',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/my_place.html',
+          controller: 'CreatePlaceCtrl'
+        }
+      }
+    })
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {
