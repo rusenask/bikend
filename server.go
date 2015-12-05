@@ -97,17 +97,14 @@ func main() {
 
 func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 	mux := bone.New()
+
 	// add new users
 	mux.Post("/api/users", http.HandlerFunc(h.addUserHandler))
 	mux.Get("/api/users", http.HandlerFunc(h.getAllUsersHandler))
-	// returns user and his/her bike store locations and also where he booked
-	mux.Get("/api/users/:user/", http.HandlerFunc(h.getUserHandler))
-	// update user
-	mux.Post("/api/users/:user", http.HandlerFunc(h.updateUserHandler))
 
 	mux.Post("api/places", http.HandlerFunc(h.addPlaceHandler))
 
-	mux.Handle("/*", http.FileServer(http.Dir("static/dist")))
+	mux.Handle("/static/*", http.FileServer(http.Dir("static/dist")))
 
 	return mux
 }
