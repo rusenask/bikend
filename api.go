@@ -37,14 +37,37 @@ func (h *HTTPClientHandler) addUserHandler(w http.ResponseWriter, r *http.Reques
 		w.WriteHeader(422) // can't process this entity
 		return
 	}
+
 	log.WithFields(log.Fields{
 		"firstName":     userRequest.FirstName,
-		"firstName":     userRequest.LastName,
+		"lastName":      userRequest.LastName,
 		"userID":        userRequest.UserID,
 		"profilePicUrl": userRequest.ProfilePicUrl,
 		"gender":        userRequest.Gender,
 		"body":          string(body),
-	}).Info("New user inserted!")
+	}).Info("Got user info")
+
+	// adding user
+	err = h.db.addUser(userRequest)
+
+	if err == nil {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(201) // user inserted
+		return
+	} else {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Warn("Failed to insert..")
+
+		content, code := responseDetailsFromMongoError(err)
+
+		// Marshal provided interface into JSON structure
+		uj, _ := json.Marshal(content)
+
+		// Write content-type, statuscode, payload
+		writeJsonResponse(w, &uj, code)
+
+	}
 
 }
 
