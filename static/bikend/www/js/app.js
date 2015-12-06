@@ -52,8 +52,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         }
       }
     })
-  
-   
+
     .state('app.user', {
       url: '/user',
 
@@ -64,15 +63,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         }
       }
     })
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+    .state('app.mybike', {
+      url: '/mybike',
+
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/mybike.html',
+          controller: 'MybikeCtrl'
+        }
       }
-    }
-  });
+    });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/map');
 });
