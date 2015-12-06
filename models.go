@@ -122,5 +122,11 @@ func (db *MongoDatabase) addHostingPlace(place HostingPlace) error {
 
 	err := c.Insert(place)
 
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Got error while adding new place.")
+	}
+
 	return err
 }

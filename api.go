@@ -192,6 +192,9 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 	err = h.db.addHostingPlace(hostingPlaceRequest)
 
 	if err == nil {
+		// adding it to esri
+		h.addEsriNode(hostingPlaceRequest)
+
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(201) // place inserted
 		return
