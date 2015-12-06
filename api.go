@@ -181,6 +181,12 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 
 	err = json.Unmarshal(body, &hostingPlaceRequest)
 
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Failed to unmarshal json!")
+	}
+
 	log.WithFields(log.Fields{
 		"body":   string(body),
 		"host":   hostingPlaceRequest.Host,
@@ -192,6 +198,9 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 	err = h.db.addHostingPlace(hostingPlaceRequest)
 
 	if err == nil {
+		// adding it to esri
+		h.addEsriNode(hostingPlaceRequest)
+
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(201) // place inserted
 		return

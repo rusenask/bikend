@@ -4,9 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.map'])
-
-.run(function($ionicPlatform) {
+angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.map','ngOpenFB'])
+.run(function($ionicPlatform, ngFB) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,6 +19,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
       StatusBar.styleDefault();
     }
   });
+
+  ngFB.init({appId: '621005301375234'});
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -41,16 +42,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
       }
     }
   })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-
   
    .state('app.newpark', {
       url: '/newpark',
@@ -70,15 +61,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         'menuContent': {
           templateUrl: 'templates/user.html',
           controller: 'UserCtrl'
-        }
-      }
-    })
-  .state('app.my_place', {
-      url: '/my_place',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/my_place.html',
-          controller: 'CreatePlaceCtrl'
         }
       }
     })
