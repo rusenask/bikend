@@ -3,34 +3,31 @@ package main
 import (
 	log "github.com/Sirupsen/logrus"
 
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	//	"strconv"
 )
 
-//[
-//	{
-//	"geometry" : {"x" : -118.15, "y" : 33.80},
-//	"attributes" : {
-//					"OWNER" : "Joe Smith",
-//					"VALUE" : 94820.37,
-//					"APPROVED" : true,
-//					"LASTUPDATE" : 1227663551096
-//					}
+//
+//{
+//"geometry": {
+//	"x": 2,
+//	"y": 51
 //	},
-//	{
-//	"geometry" : { "x" : -118.37, "y" : 34.086 },
-//	"attributes" : {
-//					"OWNER" : "John Doe",
-//					"VALUE" : 17325.90,
-//					"APPROVED" : false,
-//					"LASTUPDATE" : 1227628579430
-//					}
-//					}
-//]
+//	"attributes": {
+//			"parkid": "karolis@rusenas2.com0 51",
+//			"lat": 4,
+//			"lng": 51,
+//			"host_name": "karolis@rusenas2.com",
+//			"spaces": 3
+//			}
+//}
+//
 
-type coordinates struct {
+type Coordinates struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
 }
@@ -44,15 +41,16 @@ type PlacePayload struct {
 }
 
 type EsriFeatureNode struct {
-	Geometry   coordinates  `json:"geometry"`
+	Geometry   Coordinates  `json:"geometry"`
 	Attributes PlacePayload `json:"attributes"`
 }
 
-func (h *HTTPClientHandler) addEsriNode(place HostingPlace) error {
+func (h *HTTPClientHandler) addEsriNode(place HostingPlace) (*http.Response, error) {
 	c := h.http
 
-	parkid := fmt.Sprint("%s%f%f", place.Host, place.Lat, place.Long)
-	payload := &PlacePayload{
+	parkid := fmt.Sprintf("%s%d%d", place.Host, int(place.Lat), int(place.Long))
+
+	payload := PlacePayload{
 		Parkid: parkid,
 		Lat:    place.Lat,
 		Lng:    place.Long,
@@ -60,15 +58,41 @@ func (h *HTTPClientHandler) addEsriNode(place HostingPlace) error {
 		Spaces: place.Space,
 	}
 
-	bts, err := json.Marshal(payload)
+	coords := Coordinates{
+		X: place.Lat,
+		Y: place.Long,
+	}
+
+	finalPayload := EsriFeatureNode{Geometry: coords, Attributes: payload}
+
+	bts, err := json.Marshal(finalPayload)
 
 	if err != nil {
 		log.Error(err.Error())
 	}
 
+	//	fullurl := fmt.Sprintf("%s%s", AppConfig.ESRIEndpoint, string(bts))
+
+	log.WithFields(log.Fields{
+		"body":     string(bts),
+		"endpoint": AppConfig.ESRIEndpoint,
+		//		"fullurl":  fullurl,
+	}).Info("Adding esri node")
+
+	//	req, err := http.NewRequest("POST", fullurl, nil)
 	req, err := http.NewRequest("POST", AppConfig.ESRIEndpoint, bytes.NewBuffer(bts))
 	req.Header.Set("Content-Type", "application/json")
-	_, err = c.HTTPClient.Do(req)
+	//	req.Header.Set("Content-Type", "application/html")
+	resp, err := c.HTTPClient.Do(req)
 
-	return err
+	b := bufio.NewScanner(req.Body)
+
+	bodyStr := b.Text()
+
+	log.WithFields(log.Fields{
+		"esriStatus": resp.StatusCode,
+		"esriBody":   bodyStr,
+	}).Info("Got response from esri")
+
+	return resp, err
 }
