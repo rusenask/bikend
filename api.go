@@ -192,6 +192,7 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 		"host":   hostingPlaceRequest.Host,
 		"active": hostingPlaceRequest.Active,
 		"lat":    hostingPlaceRequest.Lat,
+		"spaces": hostingPlaceRequest.Spaces,
 		"long":   hostingPlaceRequest.Long,
 	}).Info("Got place info")
 

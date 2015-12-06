@@ -49,7 +49,7 @@ type Booking struct {
 type HostingPlace struct {
 	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Host     string        `json:"host"`     // who is hosting this place (email address)
-	Space    int           `json:"space"`    // how many bikes can you put here
+	Spaces   int           `json:"spaces"`   // how many bikes can you put here
 	Active   bool          `json:"active"`   // is it active or not
 	Long     float64       `json:"long"`     // longitude
 	Lat      float64       `json:"lat"`      // latitude
