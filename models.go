@@ -38,11 +38,12 @@ type User struct {
 }
 
 type Booking struct {
-	Id           bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Date         time.Time     `json:"time"`                   // when this booking happened
-	User         bson.ObjectId `json:"user,omitempty"`         // who did the booking
-	Host         bson.ObjectId `json:"host,omitempty"`         // who's owner
-	HostingPlace bson.ObjectId `json:"hostingPlace,omitempty"` // where is this booking taking place
+	Id   bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Date time.Time     `json:"time"`           // when this booking happened
+	User string        `json:"user,omitempty"` // who did the booking
+	Host string        `json:"host,omitempty"` // who's owner
+	Long float64       `json:"long"`           // longitude
+	Lat  float64       `json:"lat"`            // latitude
 }
 
 type HostingPlace struct {
@@ -84,15 +85,28 @@ func (db *MongoDatabase) getUser(userID string) (User, error) {
 	var places []HostingPlace
 	err = pc.Find(bson.M{"host": userID}).All(&places)
 
-	if err != nil {
-		log.WithFields(log.Fields{
-			"error": err.Error(),
-		}).Info("trouble when getting user places")
-	} else {
+	if len(places) > 0 {
+		place := places[0]
+		// bookings
+		bc := db.s.DB(AppConfig.databaseName).C(booking_collection)
+		var bookings []Booking
+
+		err = bc.Find(bson.M{
+			"host": userID,
+			"lat":  place.Lat,
+			"long": place.Long,
+		}).All(&bookings)
+
 		result.HostingPlaces = places
+
+		place.Bookings = bookings
+		result.HostingPlaces[0] = place
+		return result, err
+	} else {
+		return result, err
+
 	}
 
-	return result, err
 }
 
 func (db *MongoDatabase) addUser(user User) error {
@@ -126,6 +140,27 @@ func (db *MongoDatabase) addHostingPlace(place HostingPlace) error {
 		log.WithFields(log.Fields{
 			"error": err.Error(),
 		}).Error("Got error while adding new place.")
+	}
+
+	return err
+}
+
+func (db *MongoDatabase) addBooking(booking Booking) error {
+	// adding place
+	c := db.s.DB(AppConfig.databaseName).C(booking_collection)
+	id := bson.NewObjectId()
+	log.WithFields(log.Fields{
+		"bsonID": id,
+	}).Info("ID for booking document")
+	booking.Id = id
+	booking.Date = time.Now()
+
+	err := c.Insert(booking)
+
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Got error while adding new booking.")
 	}
 
 	return err
