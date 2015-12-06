@@ -218,7 +218,8 @@ angular.module('starter.controllers', [])
                 try{
                 var link = 'http://web.bikend.karolisr.svc.tutum.io:8080/api/places';
                 var toSend = {
-                            host: this.parkname,
+                            //host: this.parkname,
+                            host: $scope.userProfile.user.description,
                             space: this.spaces,
                             long: $scope.geoResponse.locations[0].extent.xmin,
                             lat: $scope.geoResponse.locations[0].extent.ymin,

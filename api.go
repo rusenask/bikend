@@ -181,6 +181,12 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 
 	err = json.Unmarshal(body, &hostingPlaceRequest)
 
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Failed to unmarshal json!")
+	}
+
 	log.WithFields(log.Fields{
 		"body":   string(body),
 		"host":   hostingPlaceRequest.Host,
