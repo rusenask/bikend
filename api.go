@@ -259,8 +259,6 @@ func (h *HTTPClientHandler) addBookingHandler(w http.ResponseWriter, r *http.Req
 		"body": string(body),
 		"host": bookingRequest.Host,
 		"user": bookingRequest.User,
-		"lat":  bookingRequest.Lat,
-		"long": bookingRequest.Long,
 	}).Info("Got place info")
 
 	err = h.db.addBooking(bookingRequest)
