@@ -55,7 +55,7 @@ func (h *HTTPClientHandler) addEsriNode(place HostingPlace) (*http.Response, err
 		Lat:    place.Lat,
 		Lng:    place.Long,
 		Host:   place.Host,
-		Spaces: place.Space,
+		Spaces: place.Spaces,
 	}
 
 	coords := Coordinates{
