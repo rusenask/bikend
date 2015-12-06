@@ -20,16 +20,21 @@
       <div class="item item-image">
         <img src="{{ userProfile.parking.image }} ">
         <p>
-          Address: {{ userProfile.parking.address }} 
+          <strong>
+            Address: {{ userProfile.parking.address }} 
+          </strong>
         </p>
         <p>
-          Space: {{ userProfile.parking.space }} 
+          <strong>
+            Space: {{ userProfile.parking.space }} 
+          </strong>
         </p>
       </div>
 
       <!-- Reviews -->
       <div class="item item-text-wrap" style="text-align: center; width:100%; margin:auto">
-       <p>REVIEWS</p>
+       <p>
+          <strong>REVIEWS</strong></p>
       </div>
 
       <!-- List of reviews-->
@@ -42,9 +47,8 @@
           <p>
             {{ review.user }} 
           </p>
-          <p>
-            {{ review.stars }} stars
-          </p>
+          <link href="../css/ionic-rating.css"  rel="stylesheet" type="text/css"/>
+          <rating ng-model=review.stars max=5 ></rating>
     	  </div>
 
       </div>
