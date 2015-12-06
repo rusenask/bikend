@@ -9,9 +9,9 @@
         <label class="item-input-wrapper">
         <i class="icon ion-ios7-search placeholder-icon"></i>
         <input type="text" placeholder="Address" ng-model="searchString">
-      </label>    <button class="button button-assertive" ng-click="search()">
+      </label>    <button class="button button-assertive" ng-click="search(searchString)">
   Search
-</button>
+</button> 
             </div>
         <esri-map id="map" register-as="myMap" webmap-id="109ef537e31f42868b794f553e4194ce" center="map.center" zoom="map.zoom" item-info="itemInfo" load="mapLoaded">
             
@@ -20,7 +20,7 @@
         
        <ion-footer-bar align-title="left" class="bar-dark" >
       <div class="buttons">
-        <button class="button" ng-click="routeModal.show()" ng-show="!gls.isOn">Estoy en un bus</button>
+        <button class="button" ng-click="requestModal.show()" ng-show="clicked">Request {{clicked}}</button>
       </div>
      
    
