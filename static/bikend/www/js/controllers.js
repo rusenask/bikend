@@ -246,7 +246,7 @@ angular.module('starter.controllers', ['ngOpenFB', 'ionic'])
         $scope.geoResponse = res.data;
         console.log("Responded Geocoding:", res);
         try {
-          var link = 'http://localhost:8080/api/places';
+          var link = '/api/places';
           var toSend = {
             //host: this.parkname,
             host: $scope.userProfile.user.description,
