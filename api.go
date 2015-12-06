@@ -288,16 +288,22 @@ func (h *HTTPClientHandler) addBookingHandler(w http.ResponseWriter, r *http.Req
 func (h *HTTPClientHandler) getCurrentBooking(w http.ResponseWriter, r *http.Request) {
 	userid, _ := r.URL.Query()["user"]
 
-	booking, err := h.db.getBooking(userid[0])
-	if err != nil {
-		log.Error(err.Error())
-	}
-	// Marshal provided interface into JSON structure
-	response := BookingResource{Data: booking}
-	uj, _ := json.Marshal(response)
+	if len(userid) > 0 {
+		booking, err := h.db.getBooking(userid[0])
+		if err != nil {
+			log.Error(err.Error())
+		}
+		// Marshal provided interface into JSON structure
+		response := BookingResource{Data: booking}
+		uj, _ := json.Marshal(response)
 
-	// Write content-type, statuscode, payload
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	fmt.Fprintf(w, "%s", uj)
+		// Write content-type, statuscode, payload
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(200)
+		fmt.Fprintf(w, "%s", uj)
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(412)
+	}
+
 }
