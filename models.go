@@ -165,3 +165,15 @@ func (db *MongoDatabase) addBooking(booking Booking) error {
 
 	return err
 }
+
+func (db *MongoDatabase) getBooking(userID string) (Booking, error) {
+	c := db.s.DB(AppConfig.databaseName).C(booking_collection)
+
+	var result Booking
+
+	// who cares for errors? all or nothing #24hoursCoding
+	err := c.Find(bson.M{"user": userID}).Sort("-time").One(&result)
+
+	return result, err
+
+}
