@@ -1,26 +1,30 @@
 <ion-view >
   <ion-content has-header>
-	  <div class="list card">
+    <label class="item" ng-if="!isLogged">
+        <button class="button button-block button-positive" ng-click="fbLogin()">
+        Login with Facebook
+        </button>
+    </label>
+	  <div class="list card" ng-if="isLogged">
+
+
 
       <!-- User infp -->
   	  <div class="item item-avatar">
-  	    <img src="{{ playlist.user.image }} ">
-  	    <h2>{{ playlist.user.name }} </h2>
-  	    <p>{{ playlist.user.description }}</p>
+  	    <img src="{{userProfile.user.image}} ">
+  	    <h2>{{ userProfile.user.name }} </h2>
+  	    <p>{{ userProfile.user.description }}</p>
   	  </div>
 
       <!-- Parking info -->
       <div class="item item-image">
-        <img src="{{ playlist.parking.image }} ">
+        <img src="{{ userProfile.parking.image }} ">
         <p>
-          address: {{ playlist.parking.address }} 
+          address: {{ userProfile.parking.address }} 
         </p>
         <p>
-          limit: {{ playlist.parking.limit }} 
+          limit: {{ userProfile.parking.limit }} 
         </p>
-        <a class="tab-item" href="#">
-          Share
-        </a>
       </div>
 
       <!-- Reviews -->
@@ -29,9 +33,9 @@
       </div>
 
       <!-- List of reviews-->
-      <div ng-repeat="review in playlist.reviews">
+      <div ng-repeat="review in userProfile.reviews">
     	  <div class="item item-avatar">
-    	    <img class="full-image" src="{{ review.image }}" >
+    	    <img class="full-image" src="{{review.image}}" >
     	    <p>
     	      {{ review.comment }} 
     	    </p>
