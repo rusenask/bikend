@@ -149,9 +149,15 @@ angular.module('starter.controllers', [])
                 // NOTE: $scope.$apply() is needed b/c the map's click event
                 // happens outside of Angular's digest cycle
                 $scope.$apply(function() {
-                    $scope.map.point = e.mapPoint;
+                    try{
+                    $scope.clicked = e.graphic.attributes.host_name;
+                    }catch(err)
+                    { 
+                        $scope.clicked = null;
+                        console.log("Nothing to worry about");
+                     };
                     
-                    console.log("Point clicked:", e);
+                    console.log("Point clicked:", $scope.clicked);
                 });
             });
         });
