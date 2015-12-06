@@ -17,6 +17,10 @@ type UserResource struct {
 	Data User `json:"data"`
 }
 
+type BookingResource struct {
+	Data Booking `json:"data"`
+}
+
 // Structure representing error
 type errorResponse struct {
 	Msg string `json:"msg"`
@@ -192,6 +196,7 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 		"host":   hostingPlaceRequest.Host,
 		"active": hostingPlaceRequest.Active,
 		"lat":    hostingPlaceRequest.Lat,
+		"spaces": hostingPlaceRequest.Spaces,
 		"long":   hostingPlaceRequest.Long,
 	}).Info("Got place info")
 
@@ -254,8 +259,6 @@ func (h *HTTPClientHandler) addBookingHandler(w http.ResponseWriter, r *http.Req
 		"body": string(body),
 		"host": bookingRequest.Host,
 		"user": bookingRequest.User,
-		"lat":  bookingRequest.Lat,
-		"long": bookingRequest.Long,
 	}).Info("Got place info")
 
 	err = h.db.addBooking(bookingRequest)
@@ -278,4 +281,27 @@ func (h *HTTPClientHandler) addBookingHandler(w http.ResponseWriter, r *http.Req
 		writeJsonResponse(w, &uj, code)
 
 	}
+}
+
+func (h *HTTPClientHandler) getCurrentBooking(w http.ResponseWriter, r *http.Request) {
+	userid, _ := r.URL.Query()["user"]
+
+	if len(userid) > 0 {
+		booking, err := h.db.getBooking(userid[0])
+		if err != nil {
+			log.Error(err.Error())
+		}
+		// Marshal provided interface into JSON structure
+		response := BookingResource{Data: booking}
+		uj, _ := json.Marshal(response)
+
+		// Write content-type, statuscode, payload
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(200)
+		fmt.Fprintf(w, "%s", uj)
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(412)
+	}
+
 }
