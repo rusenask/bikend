@@ -3,6 +3,7 @@ FROM golang:1.5
 MAINTAINER karolis.rusenas@gmail.com
 
 ADD . /go/src/github.com/rusenask/bikend
+WORKDIR /go/src/github.com/rusenask/bikend
 
 RUN go get gopkg.in/mgo.v2
 RUN go get github.com/Sirupsen/logrus

@@ -1,0 +1,15 @@
+web:
+  build: .
+  volumes:
+    - .:/app:rw
+  links:
+    - "mongo:mongo"
+  ports:
+    - "8080:8080"
+  restart: always
+
+mongo:
+  image: tutum/mongodb
+  environment:
+    - AUTH=no
+  restart: always
