@@ -224,3 +224,58 @@ func (h *HTTPClientHandler) addPlaceHandler(w http.ResponseWriter, r *http.Reque
 func (h *HTTPClientHandler) getPlaceHandler(w http.ResponseWriter, r *http.Request) {
 
 }
+
+func (h *HTTPClientHandler) addBookingHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", ServerName)
+	// adding new hosting place to database
+	var bookingRequest Booking
+	log.Info("adding place........")
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		// failed to read response body
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Could not read response body!")
+		http.Error(w, "Failed to read request body.", 400)
+		return
+	}
+
+	err = json.Unmarshal(body, &bookingRequest)
+
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("Failed to unmarshal json!")
+	}
+
+	log.WithFields(log.Fields{
+		"body": string(body),
+		"host": bookingRequest.Host,
+		"user": bookingRequest.User,
+		"lat":  bookingRequest.Lat,
+		"long": bookingRequest.Long,
+	}).Info("Got place info")
+
+	err = h.db.addBooking(bookingRequest)
+
+	if err == nil {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(201) // booking inserted
+		return
+	} else {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Warn("Failed to insert booking, fork it..")
+
+		content, code := responseDetailsFromMongoError(err)
+
+		// Marshal provided interface into JSON structure
+		uj, _ := json.Marshal(content)
+
+		// Write content-type, statuscode, payload
+		writeJsonResponse(w, &uj, code)
+
+	}
+}

@@ -107,6 +107,8 @@ func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 	// get places
 	mux.Get("/api/places", http.HandlerFunc(h.getPlaceHandler))
 
+	mux.Post("/api/bookings", http.HandlerFunc(h.addBookingHandler))
+
 	mux.Handle("/*", http.FileServer(http.Dir("static/bikend/www")))
 
 	return mux

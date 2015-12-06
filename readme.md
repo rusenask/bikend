@@ -92,3 +92,14 @@ add new hosting place: POST /api/places
      "active": true,
 }
 ```
+
+add new booking: POST /api/bookings
+
+```javascript
+{
+    "host": "karolis@rusenas4.com",
+    "long": "44.44",
+    "lat": "32.23",
+    "user": "karolis@rusenas2.com",
+}
+```

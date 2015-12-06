@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [ 'ngOpenFB', 'ionic'])
+angular.module('starter.controllers', [ 'ngOpenFB', 'ionic','ionic.rating'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicLoading,$timeout, $window, ngFB) {
 
@@ -33,15 +33,15 @@ angular.module('starter.controllers', [ 'ngOpenFB', 'ionic'])
           reviews :[
               {
                 name: 'John Mayer',
-                image: "http://www.technobuffalo.com/wp-content/uploads/2015/01/neytiri-avatar-5824.jpg",
+                image: "http://orig04.deviantart.net/aded/f/2013/066/c/2/profile_picture_by_naivety_stock-d5x8lbn.jpg",
                 stars: 5,
                 comment: 'lovely place to park bikes'
               },
               {
                 name: 'Paul McFly',
-                image: "http://images4.fanpop.com/image/photos/15200000/Avatar-Fan-Art-avatar-15271220-500-666.jpg",
+                image: "http://img04.deviantart.net/3114/i/2012/153/b/f/forest_witchcraft_portrait_2_by_anariel_stock-d522vzd.jpg",
                 stars: 2,
-                comment: 'The shower wasn\'t working, I had to leave al sweated to work!!!' 
+                comment: 'The shower wasn\'t working!!!' 
               }
             ]
         };
@@ -238,7 +238,7 @@ angular.module('starter.controllers', [ 'ngOpenFB', 'ionic'])
             
             console.log("sending", link);
 
-
+            var spaces = this.spaces;
 
             ngFB.api({
                   path: '/me',
@@ -257,7 +257,7 @@ angular.module('starter.controllers', [ 'ngOpenFB', 'ionic'])
                                       var toSend = {
 
                                                   host: user.email,
-                                                  space: this.spaces,
+                                                  space: spaces,
                                                   long: $scope.geoResponse.locations[0].extent.xmin,
                                                   lat: $scope.geoResponse.locations[0].extent.ymin,
                                                   active: true
