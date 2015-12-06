@@ -1,24 +1,25 @@
 lb:
-  image: tutum/haproxy
+  image: 'tutum/haproxy:latest'
   links:
-    - "web:web"
+    - web
   ports:
-    - "80:80"
+    - '8080:8080'
+  restart: always
   roles:
     - global
-  restart: always
-web:
-  image: tutum.co/karolisr/this
-  links:
-    - "mongo:mongo"
-  ports:
-    - "80:80"
-  target_num_containers: 2
-  restart: always
-  autoredeploy: true
-
 mongo:
-  image: tutum/mongodb
+  image: 'tutum/mongodb:latest'
   environment:
     - AUTH=no
   restart: always
+web:
+  image: 'tutum.co/karolisr/bikend:latest'
+  autoredeploy: true
+  environment:
+    - 'ESRI=http://services5.arcgis.com/g71O2CiScDdrYMx5/ArcGIS/rest/services/Bike_Test/FeatureServer/0/addFeatures'
+  links:
+    - mongo
+  ports:
+    - '8080:8080'
+  restart: always
+  target_num_containers: 2
