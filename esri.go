@@ -11,22 +11,6 @@ import (
 	"net/url"
 )
 
-//
-//{
-//"geometry": {
-//	"x": 2,
-//	"y": 51
-//	},
-//	"attributes": {
-//			"parkid": "karolis@rusenas2.com0 51",
-//			"lat": 4,
-//			"lng": 51,
-//			"host_name": "karolis@rusenas2.com",
-//			"spaces": 3
-//			}
-//}
-//
-
 type Coordinates struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
