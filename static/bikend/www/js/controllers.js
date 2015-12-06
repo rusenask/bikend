@@ -118,7 +118,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, $stateParams, esriLoader, esriRegistry) {
+.controller('MapCtrl', function($scope, $stateParams, $timeout, $http, $ionicModal,  esriLoader, esriRegistry) {
     // initial map settings
         // initial map settings
         $scope.map = {
@@ -161,32 +161,87 @@ angular.module('starter.controllers', [])
                 });
             });
         });
+    
+        $scope.searchString = "";
         
-        $scope.search = function(){
-            console.log("HOLA");
-            $scope.map.center.lat = 51.517474;
-            $scope.map.center.lng = -0.084044;
-            $scope.map.zoom = 17;
+        $scope.search = function(inStr){
+            
+            console.log("geocoding", inStr);
+            var link = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=' + inStr + '&f=json';
+            
+            console.log("sending", link);
+            $http.post(link).then(function (res){
+                $scope.response = res.data;
+                console.log("Responded:", res); 
+                $scope.map = {
+                    center: {
+                        lng: $scope.response.locations[0].extent.xmin,
+                        lat: $scope.response.locations[0].extent.ymin
+                    },
+                    zoom: 16
+                };
+            
+            });
+                
+           
+            
         };
+    
+   $ionicModal.fromTemplateUrl('templates/requestModal.html', function ($ionicModal) {
+            $scope.requestModal = $ionicModal;
+        }, {
+            // Use our scope for the scope of the modal to keep it simple
+            scope: $scope,
+            // The animation we want to use for the modal entrance
+            animation: 'slide-in-up'
+        });
+    
+  
     
 })
 
-.controller('NewParkCtrl', function($scope, $http) {
+.controller('RequestCtrl', function($scope, $http, $ionicHistory, $state) {
+    
+})
+
+.controller('NewParkCtrl', function($scope, $http, $ionicHistory, $state) {
     $scope.sendPark = function(){
         console.log("Adding new parking");
         
-        var link = 'http://web.bikend.karolisr.svc.tutum.io:8080/api/users';
-        var toSend = {
-                    "host": "jrl53@hotmail.com",
-                    "space": 3,
-                    "long": 51.5175,
-                    "lat": -0.0842,
-                     "active": true
+        console.log("geocoding");
+            var link = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=' + this.address + '&f=json';
+            
+            console.log("sending", link);
+            $http.post(link).then(function (res){
+                $scope.geoResponse = res.data;
+                console.log("Responded Geocoding:", res); 
+                try{
+                var link = 'http://web.bikend.karolisr.svc.tutum.io:8080/api/places';
+                var toSend = {
+                            host: this.parkname,
+                            space: this.spaces,
+                            long: $scope.geoResponse.locations[0].extent.xmin,
+                            lat: $scope.geoResponse.locations[0].extent.ymin,
+                            active: true
+                        };
+                console.log("sending", toSend);
+                $http.post(link, toSend).then(function (res){
+                    $scope.response = res.data;
+                    console.log("Responded:", res); 
+                
+                    
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                      });
+                    
+                    $state.go('app.map');
+                });
+                
+                } catch(err){
                 }
-        $http.post(link, toSend).then(function (res){
-            $scope.response = res.data;
-            console.log("Responded:", $scope.response); 
-        });
+            });
+        
+        
         
     };
 
