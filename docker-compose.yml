@@ -6,6 +6,8 @@ web:
     - "mongo:mongo"
   ports:
     - "8080:8080"
+  environment:
+    - ESRI=http://services5.arcgis.com/g71O2CiScDdrYMx5/ArcGIS/rest/services/Bike_Test/FeatureServer/0/addFeatures
   restart: always
 
 mongo:
