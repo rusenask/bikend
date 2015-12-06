@@ -81,42 +81,6 @@ angular.module('starter.controllers', [])
         };
 })
 
-.controller('CreatePlaceCtrl', function($scope, $ionicModal, $timeout) {
-
-  $scope.createPlace = {};
-
-    // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/my_place.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-
-  // Triggered in the login modal to close it
-  $scope.closeCreate = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.createPlace = function() {
-    $scope.modal.show();
-  };
-
-    // Perform the login action when the user submits the login form
-  $scope.doCreatePlace = function() {
-    console.log('Doing doCreatePlace', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeCreate();
-    }, 1000);
-  };
-
-
-
-})
 
 .controller('MapCtrl', function($scope, $stateParams, $timeout, $http, $ionicModal,  esriLoader, esriRegistry) {
     // initial map settings

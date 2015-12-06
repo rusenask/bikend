@@ -41,16 +41,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
       }
     }
   })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-
   
    .state('app.newpark', {
       url: '/newpark',
@@ -70,15 +60,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'esri.core', 'esri.ma
         'menuContent': {
           templateUrl: 'templates/user.html',
           controller: 'UserCtrl'
-        }
-      }
-    })
-  .state('app.my_place', {
-      url: '/my_place',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/my_place.html',
-          controller: 'CreatePlaceCtrl'
         }
       }
     })
