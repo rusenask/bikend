@@ -17,6 +17,10 @@ type UserResource struct {
 	Data User `json:"data"`
 }
 
+type BookingResource struct {
+	Data Booking `json:"data"`
+}
+
 // Structure representing error
 type errorResponse struct {
 	Msg string `json:"msg"`
