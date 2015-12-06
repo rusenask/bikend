@@ -108,6 +108,8 @@ func getBoneRouter(h HTTPClientHandler) *bone.Mux {
 	mux.Get("/api/places", http.HandlerFunc(h.getPlaceHandler))
 
 	mux.Post("/api/bookings", http.HandlerFunc(h.addBookingHandler))
+	// get current booking
+	mux.Get("/api/bookings", http.HandlerFunc(h.getCurrentBooking))
 
 	mux.Handle("/*", http.FileServer(http.Dir("static/bikend/www")))
 
