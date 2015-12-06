@@ -75,7 +75,7 @@ angular.module('starter.controllers', [])
                 name: 'Paul McFly',
                 image: "http://images4.fanpop.com/image/photos/15200000/Avatar-Fan-Art-avatar-15271220-500-666.jpg",
                 stars: 1,
-                comment: 'The shower wasn\'t working, I had to leave al sweated to work!!!' 
+                comment: 'The shower wasn\'t working, I had to leave al sweated to work!!!'
               }
             ]
         };
@@ -125,8 +125,8 @@ angular.module('starter.controllers', [])
             center: {
                 lng: -0.084044,
                 lat: 51.517474
-                
-                
+
+
             },
             zoom: 13
         };
@@ -143,7 +143,7 @@ angular.module('starter.controllers', [])
                 };
             });
         };
-    
+
         esriRegistry.get('myMap').then(function(map){
             map.on('click', function(e) {
                 // NOTE: $scope.$apply() is needed b/c the map's click event
@@ -152,27 +152,27 @@ angular.module('starter.controllers', [])
                     try{
                     $scope.clicked = e.graphic.attributes.host_name;
                     }catch(err)
-                    { 
+                    {
                         $scope.clicked = null;
                         console.log("Nothing to worry about");
                      };
-                    
+
                     console.log("Point clicked:", $scope.clicked);
                 });
             });
         });
-    
+
         $scope.searchString = "";
-        
+
         $scope.search = function(inStr){
-            
+
             console.log("geocoding", inStr);
             var link = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=' + inStr + '&f=json';
-            
+
             console.log("sending", link);
             $http.post(link).then(function (res){
                 $scope.response = res.data;
-                console.log("Responded:", res); 
+                console.log("Responded:", res);
                 $scope.map = {
                     center: {
                         lng: $scope.response.locations[0].extent.xmin,
@@ -180,13 +180,13 @@ angular.module('starter.controllers', [])
                     },
                     zoom: 16
                 };
-            
+
             });
-                
-           
-            
+
+
+
         };
-    
+
    $ionicModal.fromTemplateUrl('templates/requestModal.html', function ($ionicModal) {
             $scope.requestModal = $ionicModal;
         }, {
@@ -195,26 +195,26 @@ angular.module('starter.controllers', [])
             // The animation we want to use for the modal entrance
             animation: 'slide-in-up'
         });
-    
-  
-    
+
+
+
 })
 
 .controller('RequestCtrl', function($scope, $http, $ionicHistory, $state) {
-    
+
 })
 
 .controller('NewParkCtrl', function($scope, $http, $ionicHistory, $state) {
     $scope.sendPark = function(){
         console.log("Adding new parking");
-        
+
         console.log("geocoding");
             var link = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=' + this.address + '&f=json';
-            
+
             console.log("sending", link);
             $http.post(link).then(function (res){
                 $scope.geoResponse = res.data;
-                console.log("Responded Geocoding:", res); 
+                console.log("Responded Geocoding:", res);
                 try{
                 var link = 'http://web.bikend.karolisr.svc.tutum.io:8080/api/places';
                 var toSend = {
@@ -227,22 +227,22 @@ angular.module('starter.controllers', [])
                 console.log("sending", toSend);
                 $http.post(link, toSend).then(function (res){
                     $scope.response = res.data;
-                    console.log("Responded:", res); 
-                
-                    
+                    console.log("Responded:", res);
+
+
                     $ionicHistory.nextViewOptions({
                         disableBack: true
                       });
-                    
+
                     $state.go('app.map');
                 });
-                
+
                 } catch(err){
                 }
             });
-        
-        
-        
+
+
+
     };
 
 })

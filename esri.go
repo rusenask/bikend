@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	//	"strconv"
+	"net/url"
 )
 
 //
@@ -79,9 +79,16 @@ func (h *HTTPClientHandler) addEsriNode(place HostingPlace) (*http.Response, err
 		//		"fullurl":  fullurl,
 	}).Info("Adding esri node")
 
+	// constructing url
+	data := url.Values{}
+	data.Add("f", "pjson")
+	data.Add("rollbackOnFailure", "false")
+	data.Add("token", "")
+	data.Add("features", string(bts))
+
 	//	req, err := http.NewRequest("POST", fullurl, nil)
-	req, err := http.NewRequest("POST", AppConfig.ESRIEndpoint, bytes.NewBuffer(bts))
-	req.Header.Set("Content-Type", "application/json")
+	req, err := http.NewRequest("POST", AppConfig.ESRIEndpoint, bytes.NewBufferString(data.Encode()))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	//	req.Header.Set("Content-Type", "application/html")
 	resp, err := c.HTTPClient.Do(req)
 
