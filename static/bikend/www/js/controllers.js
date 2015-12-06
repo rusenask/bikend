@@ -238,7 +238,7 @@ angular.module('starter.controllers', [ 'ngOpenFB', 'ionic','ionic.rating'])
             
             console.log("sending", link);
 
-
+            var spaces = this.spaces;
 
             ngFB.api({
                   path: '/me',
@@ -257,7 +257,7 @@ angular.module('starter.controllers', [ 'ngOpenFB', 'ionic','ionic.rating'])
                                       var toSend = {
 
                                                   host: user.email,
-                                                  space: this.spaces,
+                                                  space: spaces,
                                                   long: $scope.geoResponse.locations[0].extent.xmin,
                                                   lat: $scope.geoResponse.locations[0].extent.ymin,
                                                   active: true
